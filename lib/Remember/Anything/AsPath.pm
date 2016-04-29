@@ -25,7 +25,7 @@ sub new {
 
     my $part_length = int(length($digest_sub->(1)) / ($args{tree_depth} // 3) + 1);
     $args{_path_parts_of} = sub {
-        unpack "(A$part_length)*", $digest_sub->(Dumper $_[0]);
+        unpack "(A$part_length)*", $digest_sub->(Dumper @_);
     };
 
     $args{out_dir} ||= '.';
@@ -36,14 +36,14 @@ sub new {
 }
 
 sub seen {
-    my ($self, $any) = @_;
-    return (-f join '/', $self->{out_dir}, $self->{_path_parts_of}->($any)) // 0;
+    my $self = shift;
+    return (-f join '/', $self->{out_dir}, $self->{_path_parts_of}->(@_)) // 0;
 }
 
 sub remember {
-    my ($self, $any) = @_;
+    my $self = shift;
 
-    my @path_parts = $self->{_path_parts_of}->($any);
+    my @path_parts = $self->{_path_parts_of}->(@_);
 
     my $full_path = join '/', $self->{out_dir}, @path_parts;
     return if -f $full_path;
@@ -80,8 +80,15 @@ version 0.01
  
   use Remember::Anything::AsPath;
 
+  my $book = {
+      url   => "www.books.de/3",
+      price => 999,
+      name  => "I <3 perl",
+  };
+
   my $brain = Remember::Anything::AsPat->new(
       tree_depth => $some_int # 1, only file directly, 2 one folder then file ....
+                              # default is 2
       digest_sub => sub {
           # return pathfriendly checksum of string
           # on default this is sha1_hex
