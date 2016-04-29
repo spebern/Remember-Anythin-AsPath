@@ -5,7 +5,7 @@ use warnings;
 use Carp;
 use Data::Dumper;
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 $Data::Dumper::Sortkeys = 1;
 
@@ -70,7 +70,7 @@ __END__
  
 =head1 NAME
 
-XXX - remember objects seen by a specific created id in a folder structure
+Remember::Anything::AsPath - remember objects seen by a specific created id in a folder structure
 
 =head1 VERSION
 
@@ -81,12 +81,12 @@ version 0.01
   use Remember::Anything::AsPath;
 
   my $book = {
-      url   => "www.books.de/3",
+      url   => 'www.books.de/3',
+      name  => 'I <3 perl',
       price => 999,
-      name  => "I <3 perl",
   };
 
-  my $brain = Remember::Anything::AsPat->new(
+  my $brain = Remember::Anything::AsPath->new(
       tree_depth => $some_int # 1, only file directly, 2 one folder then file ....
                               # default is 2
       digest_sub => sub {
@@ -122,7 +122,7 @@ in a tree of folders and one empty file.
 
 Example for tree_depth of 2:
 
-  $anything -> $hashed_id -> out_dir/$id_part_1/$id_part_2/$id_part_3
+$anything -> $hashed_id -> out_dir/$id_part_1/$id_part_2/$id_part_3
 
 =head2 seen
 
