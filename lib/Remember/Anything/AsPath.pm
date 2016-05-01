@@ -1,11 +1,13 @@
 package Remember::Anything::AsPath;
 
+use 5.010;
+
 use strict;
 use warnings;
 use Carp;
 use Data::Dumper;
 
-our $VERSION = '0.02';
+our $VERSION = '0.03';
 
 $Data::Dumper::Sortkeys = 1;
 
