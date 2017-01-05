@@ -22,7 +22,6 @@ my $some_obj = bless {
         foo => 'bar',
     },
     obj  => (bless { foo => 'bar' }, 'AnotherClass'),
-    sref => sub { 'hello world' },
 }, 'SomeClass';
 
 { # default attrib
@@ -35,9 +34,9 @@ my $some_obj = bless {
     $db_brain->remember($some_obj);
     is $db_brain->seen($some_obj), 1, 'Remembered object (1)';
 
-    my $id_file = "${cur_dir}cc028d1da2288e/a84dd7a3fc1b0d/b7fee7844554";
+    my $id_file = "${cur_dir}240332dfa0af11/ada007089ff78b/4dc00fa6db94";
     ok -e $id_file, 'Default treedepth and file id correct';
-    remove_tree("${cur_dir}cc028d1da2288e");
+    remove_tree("${cur_dir}240332dfa0af11");
 }
 
 { # custom threedepth, and digest sub
@@ -54,8 +53,7 @@ my $some_obj = bless {
 
     is $db_brain->seen($some_obj), 1, 'Remembered object (2)';
 
-    my $id_file = "$cur_dir/ff85dc15d5cbd20e2/6a835927b7203323a/9943f2da65cb33e4b/dcb1654822506";
+    my $id_file = "$cur_dir/92997b4fef5ffd18d/0ee0d3bcfd8f3f7c0/3d224cb6612c33f7b/22b5129616034";
     ok -e $id_file, 'Custom treedepth and file id correct';
-    remove_tree("$cur_dir/ff85dc15d5cbd20e2");
+    remove_tree("$cur_dir/92997b4fef5ffd18d");
 }
-

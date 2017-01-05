@@ -5,11 +5,9 @@ use 5.010;
 use strict;
 use warnings;
 use Carp;
-use Data::Dumper;
+use Sereal::Encoder;
 
-our $VERSION = '0.03';
-
-$Data::Dumper::Sortkeys = 1;
+our $VERSION = '0.04';
 
 sub new {
     my ($class, %args) = @_;
@@ -26,8 +24,9 @@ sub new {
     };
 
     my $part_length = int(length($digest_sub->(1)) / ($args{tree_depth} // 3) + 1);
+    my $encoder     = Sereal::Encoder->new({ sort_keys => 1 });
     $args{_path_parts_of} = sub {
-        unpack "(A$part_length)*", $digest_sub->(Dumper @_);
+        unpack "(A$part_length)*", $digest_sub->( $encoder->encode(\@_) );
     };
 
     $args{out_dir} ||= '.';
@@ -67,9 +66,9 @@ sub remember {
 __END__
 
 =pod
- 
+
 =encoding UTF-8
- 
+
 =head1 NAME
 
 Remember::Anything::AsPath - remember objects seen by a specific created id in a folder structure
@@ -79,7 +78,7 @@ Remember::Anything::AsPath - remember objects seen by a specific created id in a
 version 0.01
 
 =head1 SYNOPSIS
- 
+
   use Remember::Anything::AsPath;
 
   my $book = {
@@ -98,7 +97,7 @@ version 0.01
       out_dir => 'where/to/start/with/tree' # default '.'
   );
 
-  # remember $book object in 
+  # remember $book object in
   $brain->remember($book);
 
   if ($brain->seen($another_book) {
@@ -146,4 +145,3 @@ This is released under the Artistic License.
 spebern <bernhard@specht.net>
 
 =cut
-
