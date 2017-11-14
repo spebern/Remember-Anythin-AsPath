@@ -24,7 +24,7 @@ sub new {
     };
 
     my $part_length = int(length($digest_sub->(1)) / ($args{tree_depth} // 3) + 1);
-    my $encoder     = Sereal::Encoder->new({ sort_keys => 1 });
+    my $encoder     = Sereal::Encoder->new({ canonical => 1 });
     $args{_path_parts_of} = sub {
         unpack "(A$part_length)*", $digest_sub->( $encoder->encode(\@_) );
     };
