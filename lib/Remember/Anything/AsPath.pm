@@ -7,7 +7,7 @@ use warnings;
 use Carp;
 use Sereal::Encoder;
 
-our $VERSION = '0.04';
+our $VERSION = '0.06';
 
 sub new {
     my ($class, %args) = @_;
